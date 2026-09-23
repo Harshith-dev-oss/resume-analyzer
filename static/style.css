@@ -188,6 +188,23 @@ button:hover,
   font-weight: 600;
 }
 
+.success-tag {
+  background: #e9f7f2;
+  color: #1a7a5d;
+}
+
+.warn-tag {
+  background: #fff3e1;
+  color: #9a6500;
+}
+
+.list-box {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text);
+  line-height: 1.8;
+}
+
 .back-link {
   margin-top: 22px;
 }

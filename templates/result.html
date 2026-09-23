@@ -44,11 +44,46 @@
           {% if results.skills_found %}
           <div class="skills">
             {% for skill in results.skills_found %}
-            <span class="skill-tag">{{ skill }}</span>
+            <span class="skill-tag success-tag">{{ skill }}</span>
             {% endfor %}
           </div>
           {% else %}
           <p>No major skills were detected.</p>
+          {% endif %}
+        </div>
+
+        <div class="skills-panel">
+          <h2>Skills to Add</h2>
+          {% if results.missing_skills %}
+          <div class="skills">
+            {% for skill in results.missing_skills %}
+            <span class="skill-tag warn-tag">{{ skill }}</span>
+            {% endfor %}
+          </div>
+          {% else %}
+          <p>No immediate skill gaps detected.</p>
+          {% endif %}
+        </div>
+
+        <div class="skills-panel">
+          <h2>Weak Areas</h2>
+          {% if results.weak_areas %}
+          <ul class="list-box">
+            {% for area in results.weak_areas %}
+            <li>{{ area }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+        <div class="skills-panel">
+          <h2>Recommended Improvements</h2>
+          {% if results.recommendations %}
+          <ul class="list-box">
+            {% for recommendation in results.recommendations %}
+            <li>{{ recommendation }}</li>
+            {% endfor %}
+          </ul>
           {% endif %}
         </div>
 
