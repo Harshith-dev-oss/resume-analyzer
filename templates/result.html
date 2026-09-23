@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Analysis Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="card result-card">
+        <h1>Resume Analysis</h1>
+        <p class="filename">File: {{ filename }}</p>
+
+        <div class="score-wrap">
+          <div class="score-label">Match Score</div>
+          <div class="score-value">{{ results.match_score }}%</div>
+        </div>
+
+        <div class="pill status">{{ results.status }}</div>
+
+        <div class="grid">
+          <div class="metric">
+            <span class="metric-label">Skills Found</span>
+            <strong>{{ results.skills_found | length }}</strong>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Word Count</span>
+            <strong>{{ results.word_count }}</strong>
+          </div>
+          <div class="metric">
+            <span class="metric-label">Experience</span>
+            <strong>{{ results.experience_years|length }}</strong>
+          </div>
+        </div>
+
+        <div class="summary">
+          <h2>Summary</h2>
+          <p>{{ results.summary }}</p>
+        </div>
+
+        <div class="skills-panel">
+          <h2>Matched Skills</h2>
+          {% if results.skills_found %}
+          <div class="skills">
+            {% for skill in results.skills_found %}
+            <span class="skill-tag">{{ skill }}</span>
+            {% endfor %}
+          </div>
+          {% else %}
+          <p>No major skills were detected.</p>
+          {% endif %}
+        </div>
+
+        <a class="back-link" href="{{ url_for('index') }}">Analyze another resume</a>
+      </section>
+    </main>
+  </body>
+</html>

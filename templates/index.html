@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resume Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="card">
+        <h1>Resume Analyzer</h1>
+        <p class="subtitle">Upload a resume to see skill coverage and overall fit.</p>
+
+        {% if error %}
+        <div class="alert">{{ error }}</div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data">
+          <label for="resume" class="label">Choose resume file</label>
+          <input id="resume" name="resume" type="file" accept=".pdf,.docx,.txt" required />
+          <button type="submit">Analyze Resume</button>
+        </form>
+
+        <ul class="tips">
+          <li>Accepted formats: PDF, DOCX, TXT</li>
+          <li>Files are processed locally in the uploads folder</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
