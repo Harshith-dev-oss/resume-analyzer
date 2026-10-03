@@ -1,14 +1,21 @@
 import os
 import re
+import tempfile
 from collections import Counter
+from zipfile import BadZipFile
 
 from docx import Document
+from docx.opc.exceptions import PackageNotFoundError
 from flask import Flask, render_template, request
 from pypdf import PdfReader
+from pypdf.errors import PdfReadError, PdfStreamError
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.config["UPLOAD_FOLDER"] = os.path.join(os.getcwd(), "uploads")
+if os.environ.get("VERCEL"):
+    app.config["UPLOAD_FOLDER"] = os.path.join(tempfile.gettempdir(), "resume-analyzer-uploads")
+else:
+    app.config["UPLOAD_FOLDER"] = os.path.join(os.getcwd(), "uploads")
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
@@ -176,14 +183,19 @@ def index():
             return render_template("index.html", error="Invalid filename.")
 
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-        file.save(file_path)
-
         try:
+            file.save(file_path)
             text = extract_text(file_path)
             results = analyze_resume(text)
             return render_template("result.html", filename=filename, results=results)
         except ValueError as exc:
             return render_template("index.html", error=str(exc))
+        except (OSError, PdfReadError, PdfStreamError, BadZipFile, PackageNotFoundError):
+            app.logger.exception("Failed to save or read uploaded resume %s", filename)
+            return render_template(
+                "index.html",
+                error="We couldn't save or read that file. Please check it and try again.",
+            ), 400
 
     return render_template("index.html", error=None)
 
