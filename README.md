@@ -1,6 +1,8 @@
 # Resume Analyzer
 
-A Flask app that analyzes uploaded resumes and highlights skills, weak areas, and recommended improvements.
+A user-friendly Flask app that analyzes uploaded resumes and highlights skills, weak areas, and recommended improvements.
+
+[Try the deployed app](https://resume-analyzer-plum-kappa.vercel.app/)
 
 ## Features
 - Upload PDF, DOCX, or TXT resumes
